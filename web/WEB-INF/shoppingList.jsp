@@ -13,7 +13,18 @@
     </head>
     <body>
         <h1>Shopping List!</h1>
-        <div>Hello, ${username}&nbsp;
-            <a href="shoppingList?logout">Logout</a></div>
+        <div>
+            Hello, ${username}&nbsp;
+        </div>
+        <div>
+            <a href="shoppingList?logout">Logout</a>
+        </div>
+        
+        <h2>List</h2>
+        <form method="POST">
+            <div>Add item: <input type="text" name="item" value="">
+                <input type="submit" value="Add">
+            </div><br>
+        </form>
     </body>
 </html>

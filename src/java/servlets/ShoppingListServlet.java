@@ -6,7 +6,6 @@
 package servlets;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -18,42 +17,63 @@ import javax.servlet.http.HttpSession;
  *
  * @author 657306
  */
-@WebServlet(name = "ShoppingListServlet", urlPatterns = {"/ShoppingList"})
+@WebServlet(name = "ShoppingListServlet", urlPatterns = {"/shoppingList"})
 public class ShoppingListServlet extends HttpServlet
 {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException
     {
-        
-        getServletContext().getRequestDispatcher("/WEB-INF/register.jsp").forward(request, response);
+        doEverything(request, response);
     }
-
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException
     {
-        HttpSession session = request.getSession();
+        doEverything(request, response);
+    }
+    
+    
+    
+    protected void doEverything(HttpServletRequest req, HttpServletResponse res)
+            throws ServletException, IOException
+    {
+        HttpSession session = req.getSession();
         
-        String action = request.getParameter("action");
+        String action = req.getParameter("action");
+        if (action == null)
+        { // singleton
+            action = "landing";
+        }
         switch (action)
         {
             case "register":
-                request.setAttribute("sysMsg", "Action = register!");
+                String username = req.getParameter("username");
+                session.setAttribute("username",username);
+                String msg = "Session for "+username+" created.";
+                req.setAttribute("sysMsg", msg);
+                getServletContext().getRequestDispatcher("/WEB-INF/shoppingList.jsp").forward(req, res);
                 break;
             case "add":
-                request.setAttribute("sysMSg", "Action = add!");
+                req.setAttribute("sysMsg", "Action = add!");
+                getServletContext().getRequestDispatcher("/WEB-INF/register.jsp").forward(req, res);
                 break;
             case "delete":
-                request.setAttribute("sysMSg", "Action = delete!");
+                req.setAttribute("sysMsg", "Action = delete!");
+                getServletContext().getRequestDispatcher("/WEB-INF/register.jsp").forward(req, res);
                 break;
             case "logout":
-                request.setAttribute("sysMSg", "Action = logout!");
+                req.setAttribute("sysMsg", "Action = logout!");
+                getServletContext().getRequestDispatcher("/WEB-INF/register.jsp").forward(req, res);
+                break;
+            case "landing":
+                req.setAttribute("sysMsg", "Action = homepage!");
+                getServletContext().getRequestDispatcher("/WEB-INF/register.jsp").forward(req, res);
                 break;
             default:
-                request.setAttribute("sysMsg", "Action = unknown :(");
+                req.setAttribute("sysMsg", "Action = unknown :(");
+                getServletContext().getRequestDispatcher("/WEB-INF/register.jsp").forward(req, res);
                 break;
         }
-        getServletContext().getRequestDispatcher("/WEB-INF/register.jsp").forward(request, response);
     }
 }
