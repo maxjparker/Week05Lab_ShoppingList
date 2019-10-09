@@ -6,6 +6,7 @@
 package servlets;
 
 import java.io.IOException;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -40,40 +41,52 @@ public class ShoppingListServlet extends HttpServlet
     {
         HttpSession session = req.getSession();
         
-        String action = req.getParameter("action");
+        String url = "/WEB-INF/register.jsp";
+        ServletContext context = getServletContext();
+        
+        String action = (String) req.getParameter("action");
         if (action == null)
-        { // singleton
+        {
             action = "landing";
         }
+        
+        if (req.getParameter("logout") != null)
+        {
+            action = "logout";
+        }
+
         switch (action)
         {
             case "register":
-                String username = req.getParameter("username");
-                session.setAttribute("username",username);
-                String msg = "Session for "+username+" created.";
-                req.setAttribute("sysMsg", msg);
-                getServletContext().getRequestDispatcher("/WEB-INF/shoppingList.jsp").forward(req, res);
+                req.setAttribute("message", "Register");
+                url = "/WEB-INF/shoppingList.jsp";
                 break;
+                
             case "add":
-                req.setAttribute("sysMsg", "Action = add!");
-                getServletContext().getRequestDispatcher("/WEB-INF/register.jsp").forward(req, res);
+                req.setAttribute("message", "Add");
+                url = "/WEB-INF/shoppingList.jsp";
                 break;
+                
             case "delete":
-                req.setAttribute("sysMsg", "Action = delete!");
-                getServletContext().getRequestDispatcher("/WEB-INF/register.jsp").forward(req, res);
+                url = "/WEB-INF/shoppingList.jsp";
                 break;
+                
             case "logout":
-                req.setAttribute("sysMsg", "Action = logout!");
-                getServletContext().getRequestDispatcher("/WEB-INF/register.jsp").forward(req, res);
-                break;
+                req.setAttribute("message", "Logout");
+                url = "/WEB-INF/register.jsp";
+                break; 
+                
             case "landing":
-                req.setAttribute("sysMsg", "Action = homepage!");
-                getServletContext().getRequestDispatcher("/WEB-INF/register.jsp").forward(req, res);
+                req.setAttribute("message", "Landing");
+                url = "/WEB-INF/register.jsp";
                 break;
+                
             default:
-                req.setAttribute("sysMsg", "Action = unknown :(");
-                getServletContext().getRequestDispatcher("/WEB-INF/register.jsp").forward(req, res);
+                req.setAttribute("message", "default");
+                url = "/WEB-INF/register.jsp";
                 break;
         }
+        
+        context.getRequestDispatcher(url).forward(req, res);
     }
 }

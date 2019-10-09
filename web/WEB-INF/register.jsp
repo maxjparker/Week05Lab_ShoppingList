@@ -5,6 +5,7 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -19,7 +20,7 @@
                 <input type="submit" value="Register name">
                 <input type="hidden" name="action" value="register">
             </div><br>
-            ${sysMsg}
+            <p><c:out value="${message}" default="No message"/></p>
         </form>
     </body>
 </html>
