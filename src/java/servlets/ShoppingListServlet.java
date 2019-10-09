@@ -52,10 +52,6 @@ public class ShoppingListServlet extends HttpServlet
             action = "landing";
         }
         
-        if (req.getParameter("logout") != null)
-        {
-            action = "logout";
-        }
 
         switch (action)
         {
@@ -72,31 +68,35 @@ public class ShoppingListServlet extends HttpServlet
                 break;
                 
             case "add":
-                req.setAttribute("message", "Add"); // test
-                
-                // singleton arraylist
+                // ensure arraylist exists if not loading from prev session
                 items = (ArrayList<String>) session.getAttribute("items");
                 if (items == null)
                 {
                     items = new ArrayList<>();
                 }
-                        
+                
+                // get input
                 String item = req.getParameter("item");
                 items.add(item);
                 
+                // save list of items to session
+                session.removeAttribute("items");
                 session.setAttribute("items", items);
                 
                 url = "/WEB-INF/shoppingList.jsp";
                 break;
                 
             case "delete":
-                req.setAttribute("message", "Delete"); // test
                 
+                // get arraylist of items from session
                 items = (ArrayList<String>) session.getAttribute("items");
-                String selected = req.getParameter("selected");
+                
+                // remove selected item from arraylist
+                String selected = (String) session.getAttribute("itemSelect");
                 items.remove(selected);
                 
-                
+                // save back to session
+                session.setAttribute("items", items);
                 
                 url = "/WEB-INF/shoppingList.jsp";
                 break;

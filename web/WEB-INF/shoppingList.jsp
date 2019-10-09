@@ -32,10 +32,12 @@
                     sout(item)
                 }
         -->
-        <c:forEach var="item" items="${items}">
-            <input type="radio" name="selected" value="${item}">
-            ${item}
-        </c:forEach>
+        <form method="POST">
+            <c:forEach var="item" items="${items}">
+                <input type="radio" name="itemSelect" value="${item}">
+                ${item}<br>
+            </c:forEach>
+        </form>
 
         <c:if test="${items.size() > 0}">
             <form method="POST">
