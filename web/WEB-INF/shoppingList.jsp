@@ -37,14 +37,8 @@
                 <input type="radio" name="itemSelect" value="${item}">
                 ${item}<br>
             </c:forEach>
+            <input type="submit" value="Delete">
+            <input type="hidden" name="action" value="delete">
         </form>
-
-        <c:if test="${items.size() > 0}">
-            <form method="POST">
-                <input type="submit" value="Delete">
-                <input type="hidden" name="action" value="delete">
-            </form>
-        </c:if>
-        
     </body>
 </html>
