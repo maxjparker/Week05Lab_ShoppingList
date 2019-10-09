@@ -28,6 +28,12 @@
                 <input type="hidden" name="action" value="add">
             </div><br>
         </form>
-        <p><c:out value="${message}" default="No message" /></p>
+        <!--    for (String item : items) {
+                    sout(item)
+                }
+        -->
+        <c:forEach var="item" items="${items}">
+            ${item}
+        </c:forEach>
     </body>
 </html>

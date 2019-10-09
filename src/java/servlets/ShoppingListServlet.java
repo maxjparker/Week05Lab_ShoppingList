@@ -6,6 +6,7 @@
 package servlets;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -57,32 +58,55 @@ public class ShoppingListServlet extends HttpServlet
 
         switch (action)
         {
+            case "landing": // welcome page
+                req.setAttribute("message", "Welcome! Please enter a username.");
+                url = "/WEB-INF/register.jsp";
+                break;
+                
             case "register":
-                req.setAttribute("message", "Register");
+                String username = req.getParameter("username");
+                session.setAttribute("username", username);
+
                 url = "/WEB-INF/shoppingList.jsp";
                 break;
                 
             case "add":
-                req.setAttribute("message", "Add");
+                req.setAttribute("message", "Add"); // test
+                
+                // singleton arraylist
+                ArrayList<String> items = 
+                        (ArrayList<String>) session.getAttribute("items");
+                if (items == null)
+                {
+                    items = new ArrayList<>();
+                }
+                        
+                String item = req.getParameter("item");
+                items.add(item);
+                
+                session.setAttribute("items", items);
+                
                 url = "/WEB-INF/shoppingList.jsp";
                 break;
                 
             case "delete":
+                req.setAttribute("message", "Delete"); // test
+                
+                
+                
                 url = "/WEB-INF/shoppingList.jsp";
                 break;
                 
             case "logout":
-                req.setAttribute("message", "Logout");
+                req.setAttribute("message", "Logout successful."); // test
+                
+                session.invalidate();
+                
                 url = "/WEB-INF/register.jsp";
                 break; 
                 
-            case "landing":
-                req.setAttribute("message", "Landing");
-                url = "/WEB-INF/register.jsp";
-                break;
-                
-            default:
-                req.setAttribute("message", "default");
+            default: // should never happen
+                req.setAttribute("message", "ERROR");
                 url = "/WEB-INF/register.jsp";
                 break;
         }
