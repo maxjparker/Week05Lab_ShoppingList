@@ -20,7 +20,7 @@
         <div>
             <a href="shoppingList?logout">Logout</a>
         </div>
-        
+
         <h2>List</h2>
         <form method="POST">
             <div>Add item: <input type="text" name="item" value="">
@@ -33,7 +33,16 @@
                 }
         -->
         <c:forEach var="item" items="${items}">
+            <input type="radio" name="selected" value="${item}">
             ${item}
         </c:forEach>
+
+        <c:if test="${items.size() > 0}">
+            <form method="POST">
+                <input type="submit" value="Delete">
+                <input type="hidden" name="action" value="delete">
+            </form>
+        </c:if>
+        
     </body>
 </html>

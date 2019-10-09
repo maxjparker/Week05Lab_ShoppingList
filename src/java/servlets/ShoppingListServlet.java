@@ -41,6 +41,7 @@ public class ShoppingListServlet extends HttpServlet
             throws ServletException, IOException
     {
         HttpSession session = req.getSession();
+        ArrayList<String> items;
         
         String url = "/WEB-INF/register.jsp";
         ServletContext context = getServletContext();
@@ -74,8 +75,7 @@ public class ShoppingListServlet extends HttpServlet
                 req.setAttribute("message", "Add"); // test
                 
                 // singleton arraylist
-                ArrayList<String> items = 
-                        (ArrayList<String>) session.getAttribute("items");
+                items = (ArrayList<String>) session.getAttribute("items");
                 if (items == null)
                 {
                     items = new ArrayList<>();
@@ -91,6 +91,10 @@ public class ShoppingListServlet extends HttpServlet
                 
             case "delete":
                 req.setAttribute("message", "Delete"); // test
+                
+                items = (ArrayList<String>) session.getAttribute("items");
+                String selected = req.getParameter("selected");
+                items.remove(selected);
                 
                 
                 
