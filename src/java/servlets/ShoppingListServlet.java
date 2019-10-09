@@ -92,7 +92,7 @@ public class ShoppingListServlet extends HttpServlet
                 items = (ArrayList<String>) session.getAttribute("items");
                 
                 // remove selected item from arraylist
-                String selected = (String) session.getAttribute("itemSelect");
+                String selected = (String) session.getAttribute("itemSelect"); // ISN'T WORKING
                 items.remove(selected);
                 
                 // save back to session
